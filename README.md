@@ -1,6 +1,5 @@
 # comboFM
 
-
 ## Overview
 
 comboFM is a machine learning framework for predicting the responses of drug combinations in pre-clinical studies, such as those based on cell lines or patient-derived cells, implemented in Python. Given the predicted dose-response matrices, one can subsequently quantify the drug combination synergy scores. 
@@ -23,7 +22,6 @@ comboFM also requires installation of TensorFlow-based factorization machine [1]
 comboFM is described in the following article:
 …
 
-## Licence
 
 ## References 
 
