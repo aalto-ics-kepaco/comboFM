@@ -7,7 +7,7 @@ comboFM is a machine learning framework for predicting the responses of drug com
 
 ## Intructions
 
-The cross validation folds for 10x5 nested CV used in the experiments (10 outer loops, 5 inner loops) are stored in *cross-validation_folds*. The folds are designed for duplicated training data in which both of the drugs in a combination are included in both positions such that the symmetry of the drug combinations is taken into account (Drug A - Drug B, Drug B - Drug A), i.e. this informs the algorithm that the combination of drug A with drug B should be considered the same as the combination of drug B with drug A. There are three prediction settings:
+The cross validation folds for 10x5 nested CV used in the experiments (10 outer folds, 5 inner folds) are stored in *cross-validation_folds*. The folds are designed for duplicated training data in which both of the drugs in a combination are included in both positions such that the symmetry of the drug combinations is taken into account (Drug A - Drug B, Drug B - Drug A), i.e. this informs the algorithm that the combination of drug A with drug B should be considered the same as the combination of drug B with drug A. There are three prediction settings:
 1. New dose-response matrix entries: imputing random entries in otherwise known dose-response matrices.
 2. New dose-response matrices: making predictions for completely left out dose-response matrices, such that the drug pair has still been observed in other cell lines.
 3. New drug combinations: making predictions for completely left out drug combinations, such that the individual drugs are still be observed individually in other combinations.
