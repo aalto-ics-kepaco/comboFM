@@ -26,10 +26,11 @@ In all prediction settings, it is assumed that the monotherapy responses of sing
 - tqdm
 - tensorflow 1.0+
 
-comboFM also requires installation of TensorFlow-based factorization machine (Mikhail Trofimov and Alexander Novikov. TFFM: TensorFlow implementation of an arbitrary order Factorization Machine, 2016. https://github.com/geffy/tffm). TTFM can be installed e.g. by pip install tffm. 
+comboFM also requires installation of TensorFlow-based factorization machine (Mikhail Trofimov and Alexander Novikov. TFFM: TensorFlow implementation of an arbitrary order Factorization Machine, 2016. https://github.com/geffy/tffm). TFFM can be installed e.g. by pip install tffm. 
 
 ## Citing comboFM
 
 comboFM is described in the following article:
+
 Julkunen, H.; Cichonska, A.; Gautam, P.; Szedmak, S.; Douat, J.; Pahikkala, T.; Aittokallio, T. and Rousu, J. comboFM: leveraging multi-way interactions for systematic prediction of drug combination effects.
 
