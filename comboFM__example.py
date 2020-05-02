@@ -16,7 +16,7 @@ def main():
     outer_fold = 1
     
     seed = 123 # Random seed
-    n_epochs = 200 # Number of epochs 
+    n_epochs = 50 # Number of epochs 
     learning_rate=0.001 # Learning rate of the optimizer
     batch_size = 1024 # Batch size
     init_std=0.01 # Initial standard deviation
@@ -29,15 +29,29 @@ def main():
     print(tf.test.is_gpu_available())
     
     # Features in position 1: Drug A - Drug B
-    features_tensor_1 = ("Conc1-onehotEnc.txt", "Conc2-onehotEnc.txt", "Drug1-onehotEnc.txt", "Drug2-onehotEnc.txt", "Cell-onehotEnc.txt")
-    features_auxiliary_1 = ("Conc1_Conc2.txt", "Drug1-estateFps.txt", "Drug2-estateFps.txt", "Cell-geneExp0.05%.txt")
+    features_tensor_1 = ("drug1_concentration__one-hot_encoding.csv", 
+                         "drug2_concentration__one-hot_encoding.csv", 
+                         "drug1__one-hot_encoding.csv", 
+                         "drug2__one-hot_encoding.csv", 
+                         "cell_lines__one-hot_encoding.csv")
+    features_auxiliary_1 = ("drug1_drug2_concentration__values.csv", 
+                            "drug1__estate_fingerprints.csv", 
+                            "drug2__estate_fingerprints.csv", 
+                            "cell_lines__gene_expression.csv")
     X_tensor_1 = concatenate_features(features_tensor_1)
     X_auxiliary_1 = concatenate_features(features_auxiliary_1)
     X_1 = np.concatenate((X_tensor_1, X_auxiliary_1), axis = 1)
     
     # Features in position 2: Drug B - Drug A
-    features_tensor_2 = ("Conc2-onehotEnc.txt", "Conc1-onehotEnc.txt", "Drug2-onehotEnc.txt", "Drug1-onehotEnc.txt", "Cell-onehotEnc.txt")
-    features_auxiliary_2 =("Conc2_Conc1.txt", "Drug2-estateFps.txt", "Drug1-estateFps.txt", "Cell-geneExp0.05%.txt")
+    features_tensor_2 = ("drug2_concentration__one-hot_encoding.csv", 
+                         "drug1_concentration__one-hot_encoding.csv", 
+                         "drug2__one-hot_encoding.csv", 
+                         "drug1__one-hot_encoding.csv", 
+                         "cell_lines__one-hot_encoding.csv")
+    features_auxiliary_2 =("drug2_drug1_concentration__values.csv", 
+                           "drug2__estate_fingerprints.csv", 
+                           "drug1__estate_fingerprints.csv", 
+                           "cell_lines__gene_expression.csv")
     X_tensor_2 = concatenate_features(features_tensor_2)
     X_auxiliary_2 = concatenate_features(features_auxiliary_2)
     X_2 = np.concatenate((X_tensor_2, X_auxiliary_2), axis = 1)
@@ -52,7 +66,7 @@ def main():
     del X_tensor_1, X_auxiliary_1, X_tensor_2, X_auxiliary_2, X_1, X_2
     
     # Read responses
-    y  = np.loadtxt("data/DrugCombo_responses.txt")
+    y  = np.loadtxt("data/responses.csv", delimiter = ",", skiprows = 1)
     y = np.concatenate((y, y), axis=0)
     
     # Read cross-validation folds and divide the data

@@ -15,11 +15,11 @@ def concatenate_features(feature_filenames):
         X: final feature matrix (non-standardized)
         """
     print('Reading file: %s'%feature_filenames[0])
-    X = np.loadtxt("data/"  + feature_filenames[0] + ".txt") # read the first feature file
+    X = np.loadtxt("data/"  + feature_filenames[0], delimiter = ",", skiprows = 1) # read the first feature file
     for i in range(1,len(feature_filenames)):
         filename = feature_filenames[i]
         print('Reading file: %s'%feature_filenames[i])
-        X_i = np.loadtxt("data/"  + filename + ".txt")
+        X_i = np.loadtxt("data/"  + filename, delimiter = ",", skiprows = 1)
         X = np.concatenate((X, X_i), axis=1)
     print('... done!')
     return X

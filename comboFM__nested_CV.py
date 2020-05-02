@@ -35,21 +35,21 @@ def main(argv):
     print('GPU available:')
     print(tf.test.is_gpu_available())
     
-    # Features in position 1: Drug A - Drug B
-    features_tensor_1 = ("Conc1-onehotEnc", "Conc2-onehotEnc", "Drug1-onehotEnc", "Drug2-onehotEnc", "Cell-onehotEnc")
-    features_auxiliary_1 = ("Conc1_Conc2", "Drug1-estateFps", "Drug2-estateFps", "Cell-geneExp0.05%")
+     # Features in position 1: Drug A - Drug B
+    features_tensor_1 = ("drug1_concentration__one-hot_encoding.csv", "drug2_concentration__one-hot_encoding.csv", "drug1__one-hot_encoding.csv", "drug2__one-hot_encoding.csv", "cell_lines__one-hot_encoding.csv")
+    features_auxiliary_1 = ("drug1_drug2_concentration__values.csv", "drug1__estate_fingerprints.csv", "drug2__estate_fingerprints.csv", "cell_lines__gene_expression.csv")
     X_tensor_1 = concatenate_features(features_tensor_1)
     X_auxiliary_1 = concatenate_features(features_auxiliary_1)
     X_1 = np.concatenate((X_tensor_1, X_auxiliary_1), axis = 1)
     
     # Features in position 2: Drug B - Drug A
-    features_tensor_2 = ("Conc2-onehotEnc", "Conc1-onehotEnc", "Drug2-onehotEnc", "Drug1-onehotEnc", "Cell-onehotEnc")
-    features_auxiliary_2 =("Conc2_Conc1", "Drug2-estateFps", "Drug1-estateFps", "Cell-geneExp0.05%")
+    features_tensor_2 = ("drug2_concentration__one-hot_encoding.csv", "drug1_concentration__one-hot_encoding.csv", "drug2__one-hot_encoding.csv", "drug1__one-hot_encoding.csv", "cell_lines__one-hot_encoding.csv")
+    features_auxiliary_2 =("drug2_drug1_concentration__values.csv", "drug2__estate_fingerprints.csv", "drug1__estate_fingerprints.csv", "cell_lines__gene_expression.csv")
     X_tensor_2 = concatenate_features(features_tensor_2)
     X_auxiliary_2 = concatenate_features(features_auxiliary_2)
     X_2 = np.concatenate((X_tensor_2, X_auxiliary_2), axis = 1)
     
-    # Stack the features from both positions vertically
+    # Concatenate the features from both positions vertically
     X = np.concatenate((X_1, X_2), axis=0)
     print('Dataset shape: {}'.format(X.shape))
     print('Non-zeros rate: {:.05f}'.format(np.mean(X != 0)))
@@ -58,11 +58,9 @@ def main(argv):
     i_aux = X_tensor_1.shape[1]
     del X_tensor_1, X_auxiliary_1, X_tensor_2, X_auxiliary_2, X_1, X_2
     
-    # Stack the responses from both positions vertically
-    responses_filename = "DrugCombo_responses"
-    y_1 = np.loadtxt("../data/" + responses_filename + ".txt")
-    y_2 = np.loadtxt("../data/" + responses_filename + ".txt")
-    y = np.concatenate((y_1, y_2), axis=0)
+    # Read responses
+    y  = np.loadtxt("data/responses.csv", delimiter = ",", skiprows = 1)
+    y = np.concatenate((y, y), axis=0)
     
     inner_folds = list(range(1, nfolds_inner+1))
     outer_folds = list(range(1, nfolds_outer+1))
