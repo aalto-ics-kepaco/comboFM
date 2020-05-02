@@ -3,7 +3,7 @@ library(tidyverse)
 # Read drug combination data
 df <- 
   readr::read_csv(
-    file = "data/CombALMANAC_555300.csv",
+    file = "data/NCI-ALMANAC_subset_555300.csv",
     col_types = readr::cols()
   ) 
 
