@@ -4,7 +4,7 @@
 
 comboFM is a machine learning framework for predicting the responses of drug combinations in pre-clinical studies, such as those based on cell lines or patient-derived cells, implemented in Python. 
 
-The data used in the experiments is available on:
+The data used in the experiments is available on: https://zenodo.org/record/3782332#.Xq0_ji9h2L9.
 
 ## Intructions
 
