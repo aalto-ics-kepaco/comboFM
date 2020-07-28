@@ -5,25 +5,32 @@ data_dir <- "../comboFM_data/"
 # Read drug combination data
 df <- 
   readr::read_csv(
-    file = paste0(data_dir, "NCI-ALMANAC_subset_555300.csv"),
+    file = paste0(data_dir,  "NCI-ALMANAC_subset_2225137__validation_train.csv"),
     col_types = readr::cols()
   ) 
+
+df_validation <- 
+  readr::read_csv(
+    paste0(data_dir, "NCI-ALMANAC_subset_2540334__validation_test.csv"),
+    col_types = readr::cols()
+  ) 
+
 
 # One-hot encoding --------------------------------------------------------
 
 
-unique_cell_lines <- df %>% dplyr::pull(.data$CellLine) %>%  unique()
+unique_cell_lines <- df_validation %>% dplyr::pull(.data$CellLine) %>%  unique()
 
 df_onehot <- df %>% 
   dplyr::select(.data$CellLine) %>% 
   dplyr::mutate(CellLine = factor(.data$CellLine, levels = unique_cell_lines)) %>% 
   data.table::as.data.table() %>% 
-  mltools::one_hot()
+  mltools::one_hot(sparsifyNAs = TRUE)
 
 # Save the features
 readr::write_csv(
   x = df_onehot,
-  path = paste0(data_dir, "data/cell_lines__one-hot_encoding.csv")
+  path = paste0(data_dir, "validation_data_train/cell_lines__one-hot_encoding.csv")
 )
 
 # Gene expression ---------------------------------------------------------
@@ -93,17 +100,11 @@ df_expr_feat <- df %>%
 # Save the features
 readr::write_csv(
   x = df_expr_feat,
-  path = paste0(data_dir, "data/cell_lines__gene_expression.csv")
+  path = paste0(data_dir, "validation_data_train/cell_lines__gene_expression.csv")
 )
 
 
 # Validation set outside the data used in CV ------------------------------
-
-df_validation <- 
-  readr::read_csv(
-    paste0(data_dir, "NCI-ALMANAC_subset_4210171__validation.csv"),
-    col_types = readr::cols()
-  ) 
 
 
 # One-hot encoding
@@ -111,7 +112,7 @@ df_onehot <- df_validation %>%
   dplyr::select(.data$CellLine) %>% 
   dplyr::mutate(CellLine = factor(.data$CellLine, levels = unique_cell_lines)) %>% 
   data.table::as.data.table() %>% 
-  mltools::one_hot()
+  mltools::one_hot(sparsifyNAs = TRUE)
 
 # Save the features
 readr::write_csv(

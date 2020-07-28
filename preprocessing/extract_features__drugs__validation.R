@@ -1,29 +1,34 @@
 library(tidyverse)
 
 data_dir <- "../comboFM_data/"
-
 # Read drug combination data
 df <- 
   readr::read_csv(
-    file = paste0(data_dir, "NCI-ALMANAC_subset_555300.csv"),
+    file = paste0(data_dir,  "NCI-ALMANAC_subset_2225137__validation_train.csv"),
+    col_types = readr::cols()
+  ) 
+
+df_validation <- 
+  readr::read_csv(
+    paste0(data_dir, "NCI-ALMANAC_subset_2540334__validation_test.csv"),
     col_types = readr::cols()
   ) 
 
 # One-hot encoding --------------------------------------------------------
 
-unique_drugs <- unique(c(df$Drug1, df$Drug2))
+unique_drugs <- unique(c(df_validation$Drug1, df_validation$Drug2))
 
 # Drug 1 concentrations
 df_onehot_drug1 <- df %>% 
   dplyr::select(.data$Drug1) %>% 
   dplyr::mutate(Drug1 = factor(.data$Drug1, levels = unique_drugs)) %>% 
   data.table::as.data.table() %>% 
-  mltools::one_hot()
+  mltools::one_hot(sparsifyNAs = TRUE)
 
 # Save the features
 readr::write_csv(
   x = df_onehot_drug1,
-  path = paste0(data_dir, "data/drug1__one-hot_encoding.csv")
+  path = paste0(data_dir, "validation_data_train/drug1__one-hot_encoding.csv")
 )
 
 # Drug 2 concentrations
@@ -31,12 +36,12 @@ df_onehot_drug2 <- df %>%
   dplyr::select(.data$Drug2) %>% 
   dplyr::mutate(Drug2 = factor(.data$Drug2, levels = unique_drugs)) %>% 
   data.table::as.data.table() %>% 
-  mltools::one_hot()
+  mltools::one_hot(sparsifyNAs = TRUE)
 
 # Save the features
 readr::write_csv(
   x = df_onehot_drug2,
-  path = paste0(data_dir, "data/drug2__one-hot_encoding.csv")
+  path = paste0(data_dir, "validation_data_train/drug2__one-hot_encoding.csv")
 )
 
 # Molecular fingerprints --------------------------------------------------
@@ -66,7 +71,7 @@ drug1_fingerprints <- df %>%
 # Save the features
 readr::write_csv(
   x = drug1_fingerprints,
-  path = paste0(data_dir, "data/drug1__estate_fingerprints.csv")
+  path = paste0(data_dir, "validation_data_train/drug1__estate_fingerprints.csv")
 )
 
 
@@ -85,7 +90,7 @@ drug2_fingerprints <- df %>%
 # Save the features
 readr::write_csv(
   x = drug2_fingerprints,
-  path = paste0(data_dir, "data/drug2__estate_fingerprints.csv")
+  path = paste0(data_dir, "validation_data_train/drug2__estate_fingerprints.csv")
 ) 
 
 
@@ -93,11 +98,6 @@ readr::write_csv(
 
 # Validation set ----------------------------------------------------------
 
-df_validation <- 
-  readr::read_csv(
-    paste0(data_dir, "NCI-ALMANAC_subset_4210171__validation.csv"),
-    col_types = readr::cols()
-  ) 
 
 # Drug 1 concentrations
 df_onehot_drug1 <- df_validation %>% 

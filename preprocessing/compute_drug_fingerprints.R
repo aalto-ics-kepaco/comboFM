@@ -1,15 +1,21 @@
 library("rJava")
 library("rcdk")
 library("fingerprint")
+library("tidyverse")
 
-# Read SMILES from text file 
-smiles <-
+data_dir <- "../comboFM_data/"
+
+df <- 
   readr::read_csv(
-    file = "drugs__SMILES.csv",
+    #file = paste0(data_dir, "additional_data/drugs__SMILES.csv"),
+    file ="drugs__SMILES.csv",
     comment = "",
-    col_names = FALSE,
     col_types = readr::cols()
   )
+
+# Read SMILES from text file 
+smiles <- df %>% 
+  dplyr::pull(.data$SMILE)
 
 # Parse a vector of SMILES to generate a list of IAtomContainer objects
 molecules = parse.smiles(smiles)
@@ -27,8 +33,17 @@ for (i in 1:length(molecules)){
   fps_vectors[[i]] = bit.spectrum(fps[i])
 }
 
+df_fps <- df %>% 
+  dplyr::select(.data$Drug) %>% 
+  dplyr::bind_cols(
+    fps_vectors %>% 
+      as.data.frame() %>% 
+      t() %>% 
+      as.data.frame() 
+  )
+
 readr::write_csv(
-  x = fps_vectors,
+  x = df_fps,
   path = "drugs__estate_fingerprints.csv",
   col_names = FALSE
 )

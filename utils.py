@@ -3,7 +3,7 @@ sys.path.append("..")
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-def concatenate_features(feature_filenames):
+def concatenate_features(data_dir, feature_filenames):
     """
         This function concatenates the feature matrices in the files listed
         in feature_filenames.
@@ -15,11 +15,11 @@ def concatenate_features(feature_filenames):
         X: final feature matrix (non-standardized)
         """
     print('Reading file: %s'%feature_filenames[0])
-    X = np.loadtxt("data/"  + feature_filenames[0], delimiter = ",", skiprows = 1) # read the first feature file
+    X = np.loadtxt(data_dir  + feature_filenames[0], delimiter = ",", skiprows = 1) # read the first feature file
     for i in range(1,len(feature_filenames)):
         filename = feature_filenames[i]
         print('Reading file: %s'%feature_filenames[i])
-        X_i = np.loadtxt("data/"  + filename, delimiter = ",", skiprows = 1)
+        X_i = np.loadtxt(data_dir + filename, delimiter = ",", skiprows = 1)
         X = np.concatenate((X, X_i), axis=1)
     print('... done!')
     return X
@@ -45,7 +45,7 @@ def standardize(X_train, X_test, i_aux):
     
     scaler = StandardScaler()
     scaler.fit(X_train[:,i_aux:])
-    X_train[:,i_aux:]=scaler.transform(X_train[:,i_aux:])
-    X_test[:,i_aux:]=scaler.transform(X_test[:,i_aux:])
+    X_train[:,i_aux:] = scaler.transform(X_train[:,i_aux:])
+    X_test[:,i_aux:] = scaler.transform(X_test[:,i_aux:])
     
     return X_train, X_test

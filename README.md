@@ -4,9 +4,9 @@
 
 comboFM is a machine learning framework for predicting the responses of drug combinations in pre-clinical studies, such as those based on cell lines or patient-derived cells, implemented in Python. 
 
-The data used in the experiments is available on: https://zenodo.org/record/3782332#.Xq0_ji9h2L9.
+The data used in the experiments is available on: https://zenodo.org/record/3782333#.XyA-xx1RXyw.
 
-## Intructions
+## Instructions
 
 *comboFM__nested_CV.py* contains the script for running the full nested cross-validation (CV). The script takes a number identifying the outer CV loop as an input argument, which allows to parallelize the computations using array jobs.  One should also pass the name of the prediction scenario as an input argument, which has to be one of the following options: 
 1. new_dose-response_matrix_entries: imputing missing entries in otherwise known dose-response matrices.
@@ -16,11 +16,13 @@ In all prediction settings, it is assumed that the monotherapy responses of sing
 
 *comboFM__example.py* contains an example of running comboFM for one outer cross-validation fold with fixed parameters to enable testing without having to run the full nested cross-validation procedure. 
 
+*comboFM_validation.py* contains the script for running an experiment on the validation dataset consisting of the remaining NCI-ALMANAC data not used in the method development. 
+
 *cross-validation_folds* stores the cross-validation folds for 10x5 nested CV used in the experiments (10 outer folds, 5 inner folds) for the three prediction settings described above. The folds are designed for duplicated training data in which both of the drugs in a combination are included in both positions such that the symmetry of the drug combinations is taken into account (Drug A - Drug B, Drug B - Drug A), i.e. this informs the algorithm that the combination of drug A with drug B should be considered the same as the combination of drug B with drug A. 
 
 *preprocessing* contains R scripts that were used in preprocessing and extracting the features.
 
-*experimental_validation_data* contains the results from experimental validation described in the article (also available on: ). 
+*experimental_validation_data* contains the results from experimental validation described in the article (also available on Zenodo). 
 
 ## Dependencies
 
