@@ -18,6 +18,8 @@ In all prediction settings, it is assumed that the monotherapy responses of sing
 
 *comboFM_validation.py* contains the script for running an experiment on the validation dataset consisting of the remaining NCI-ALMANAC data not used in the method development. 
 
+*RF__nested_CV.py* contains the script for running the full nested cross-validation (CV) procedure with rarndom forerst.
+
 *cross-validation_folds* stores the cross-validation folds for 10x5 nested CV used in the experiments (10 outer folds, 5 inner folds) for the three prediction settings described above. The folds are designed for duplicated training data in which both of the drugs in a combination are included in both positions such that the symmetry of the drug combinations is taken into account (Drug A - Drug B, Drug B - Drug A), i.e. this informs the algorithm that the combination of drug A with drug B should be considered the same as the combination of drug B with drug A. 
 
 *preprocessing* contains R scripts that were used in preprocessing and extracting the features.
